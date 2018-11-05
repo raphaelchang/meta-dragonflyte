@@ -1,0 +1,34 @@
+From aa37fa1276a79d630ba7a66ea76aa77c64bf4510 Mon Sep 17 00:00:00 2001
+From: raphaelchang <raphaelchang1227@gmail.com>
+Date: Mon, 5 Nov 2018 04:28:05 -0500
+Subject: [PATCH] Remove tests
+
+---
+ CMakeLists.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 6d3a4c2..5495a86 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -33,7 +33,7 @@ add_subdirectory(lcm)
+ add_subdirectory(lcmgen)
+ add_subdirectory(lcm-logger)
+ 
+-option(LCM_ENABLE_EXAMPLES "Build test and example programs" ON)
++option(LCM_ENABLE_EXAMPLES "Build test and example programs" OFF)
+ if(LCM_ENABLE_EXAMPLES)
+   add_subdirectory(liblcm-test)
+ endif()
+@@ -79,7 +79,7 @@ lcm_option(
+   "Build Go utilities, bindings is source distributed"
+   GO_FOUND Go)
+ 
+-option(LCM_ENABLE_TESTS "Build unit tests" ON)
++option(LCM_ENABLE_TESTS "Build unit tests" OFF)
+ if(LCM_ENABLE_TESTS)
+   enable_testing()
+   add_subdirectory(test)
+-- 
+2.7.4
+
