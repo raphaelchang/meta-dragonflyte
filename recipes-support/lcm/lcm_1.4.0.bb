@@ -25,7 +25,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=58f4394e20cf65bea09efdc8b430c0bd \
                     file://lcm-python/COPYING;md5=6a6a8e020838b23406c81b19c1d46df6"
 
 SRC_URI = "https://github.com/lcm-proj/lcm/archive/v${PV}.tar.gz \
-           file://0001-Remove-tests.patch \
+           file://0001-Disable-lcm-gen.patch \
            "
 SRC_URI[md5sum] = "f26ac001d8b4fa321edcf87c3b5657cc"
 SRC_URI[sha256sum] = "149d7076369d261e6adbb25d713dc9e30aeba415f4fc62bb41e748b2eb229b46"

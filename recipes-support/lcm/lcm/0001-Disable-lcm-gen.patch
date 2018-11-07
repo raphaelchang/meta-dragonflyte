@@ -1,18 +1,21 @@
-From aa37fa1276a79d630ba7a66ea76aa77c64bf4510 Mon Sep 17 00:00:00 2001
+From 36846c3f07a616790575bdc2678209ee30e39eaa Mon Sep 17 00:00:00 2001
 From: raphaelchang <raphaelchang1227@gmail.com>
-Date: Mon, 5 Nov 2018 04:28:05 -0500
-Subject: [PATCH] Remove tests
+Date: Mon, 5 Nov 2018 05:11:33 -0500
+Subject: [PATCH] Disable lcm-gen
 
 ---
- CMakeLists.txt | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ CMakeLists.txt | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 6d3a4c2..5495a86 100644
+index 6d3a4c2..e71ecb0 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -33,7 +33,7 @@ add_subdirectory(lcm)
- add_subdirectory(lcmgen)
+@@ -30,10 +30,9 @@ endif()
+ 
+ # Core modules
+ add_subdirectory(lcm)
+-add_subdirectory(lcmgen)
  add_subdirectory(lcm-logger)
  
 -option(LCM_ENABLE_EXAMPLES "Build test and example programs" ON)
@@ -20,7 +23,7 @@ index 6d3a4c2..5495a86 100644
  if(LCM_ENABLE_EXAMPLES)
    add_subdirectory(liblcm-test)
  endif()
-@@ -79,7 +79,7 @@ lcm_option(
+@@ -79,7 +78,7 @@ lcm_option(
    "Build Go utilities, bindings is source distributed"
    GO_FOUND Go)
  
