@@ -1,0 +1,72 @@
+diff --git a/drivers/rpmsg/rpmsg_core.c b/drivers/rpmsg/rpmsg_core.c
+index 0281900..8a2b557 100644
+--- a/drivers/rpmsg/rpmsg_core.c
++++ b/drivers/rpmsg/rpmsg_core.c
+@@ -210,6 +210,26 @@ int rpmsg_trysendto(struct rpmsg_endpoint *ept, void *data, int len, u32 dst)
+ EXPORT_SYMBOL(rpmsg_trysendto);
+ 
+ /**
++ * rpmsg_poll() - poll the endpoint's send buffers
++ * @ept:	the rpmsg endpoint
++ * @filp:	file for poll_wait()
++ * @wait:	poll_table for poll_wait()
++ *
++ * Returns mask representing the current state of the endpoint's send buffers
++ */
++unsigned int rpmsg_poll(struct rpmsg_endpoint *ept, struct file *filp,
++			poll_table *wait)
++{
++	if (WARN_ON(!ept))
++		return 0;
++	if (!ept->ops->poll)
++		return 0;
++
++	return ept->ops->poll(ept, filp, wait);
++}
++EXPORT_SYMBOL(rpmsg_poll);
++
++/**
+  * rpmsg_send_offchannel() - send a message using explicit src/dst addresses
+  * @ept: the rpmsg endpoint
+  * @src: source address
+diff --git a/drivers/rpmsg/rpmsg_internal.h b/drivers/rpmsg/rpmsg_internal.h
+index a34e519..0cf9c7e 100644
+--- a/drivers/rpmsg/rpmsg_internal.h
++++ b/drivers/rpmsg/rpmsg_internal.h
+@@ -21,6 +21,7 @@
+ #define __RPMSG_INTERNAL_H__
+ 
+ #include <linux/rpmsg.h>
++#include <linux/poll.h>
+ 
+ #define to_rpmsg_device(d) container_of(d, struct rpmsg_device, dev)
+ #define to_rpmsg_driver(d) container_of(d, struct rpmsg_driver, drv)
+@@ -70,6 +71,8 @@ struct rpmsg_endpoint_ops {
+ 	int (*trysendto)(struct rpmsg_endpoint *ept, void *data, int len, u32 dst);
+ 	int (*trysend_offchannel)(struct rpmsg_endpoint *ept, u32 src, u32 dst,
+ 			     void *data, int len);
++	unsigned int (*poll)(struct rpmsg_endpoint *ept, struct file *filp,
++			     poll_table *wait);
+ };
+ 
+ int rpmsg_register_device(struct rpmsg_device *rpdev);
+diff --git a/include/linux/rpmsg.h b/include/linux/rpmsg.h
+index 51c2fbd..4f5798f 100644
+--- a/include/linux/rpmsg.h
++++ b/include/linux/rpmsg.h
+@@ -40,6 +40,7 @@
+ #include <linux/mod_devicetable.h>
+ #include <linux/kref.h>
+ #include <linux/mutex.h>
++#include <linux/poll.h>
+ 
+ #define VIRTIO_RPMSG_F_NS       0
+ 
+@@ -171,4 +172,7 @@ int rpmsg_trysendto(struct rpmsg_endpoint *ept, void *data, int len, u32 dst);
+ int rpmsg_trysend_offchannel(struct rpmsg_endpoint *ept, u32 src, u32 dst,
+ 			     void *data, int len);
+ 
++unsigned int rpmsg_poll(struct rpmsg_endpoint *ept, struct file *filp,
++			poll_table *wait);
++
+ #endif /* _LINUX_RPMSG_H */
